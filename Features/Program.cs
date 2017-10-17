@@ -3,6 +3,7 @@ using System.Collections.Generic;
 //using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Features.Linq;
 
 namespace Features
 {
@@ -21,14 +22,16 @@ namespace Features
                 new Employee { Id = 3, Name = "Alex" }
             };
 
+            Console.WriteLine(developers.Count());
+
             TagNames(developers);
             Console.WriteLine("***");
-            TagNamesHardcore(developers);
+            TagNamesHardcore(sales);
         }
 
         private static void TagNamesHardcore(IEnumerable<Employee> developers)
         {
-            // Hardcore foreach
+            // IEnumerator plays > Hardcore foreach
             IEnumerator<Employee> enumerator = developers.GetEnumerator();
             while (enumerator.MoveNext())
             {
