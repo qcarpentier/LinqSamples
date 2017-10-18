@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-//using System.Linq;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Features.Linq;
+//using Features.Linq;
 
 namespace Features
 {
@@ -24,9 +24,28 @@ namespace Features
 
             Console.WriteLine(developers.Count());
 
-            TagNames(developers);
+            // Use the Named method
+            //TagNames(developers.Where(NameStartsWithQ));
+
+            // Use the Anonymous method
+            //TagNames(developers.Where(
+            //    delegate(Employee employee)
+            //    {
+            //        return employee.Name.StartsWith("Q");
+            //    }));
+
+            // Easier syntax > Lambda expression
+            TagNames(developers.Where(
+                            e => e.Name.StartsWith("Q")));
+
             Console.WriteLine("***");
             TagNamesHardcore(sales);
+        }
+
+        // Named method
+        private static bool NameStartsWithQ(Employee employee)
+        {
+            return employee.Name.StartsWith("Q");
         }
 
         private static void TagNamesHardcore(IEnumerable<Employee> developers)
