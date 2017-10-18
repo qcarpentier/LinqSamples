@@ -27,7 +27,12 @@ namespace Features
 
             IEnumerable<Employee> sales = new Employee[]
             {
-                new Employee { Id = 3, Name = "Alex" }
+                new Employee { Id = 3, Name = "Alex" },
+                new Employee { Id = 4, Name = "Jean-Marc" },
+                new Employee { Id = 5, Name = "Karim" },
+                new Employee { Id = 6, Name = "Pierre" },
+                new Employee { Id = 7, Name = "Jim" },
+                new Employee { Id = 8, Name = "Guillaume" }
             };
 
             Console.WriteLine(developers.Count());
@@ -43,11 +48,10 @@ namespace Features
             //    }));
 
             // Easier syntax > Lambda expression
-            TagNames(developers.Where(
-                            e => e.Name.StartsWith("Q")));
-
+            TagNames(developers.Where(e => e.Name.StartsWith("Q")));
             Console.WriteLine("***");
-            TagNamesHardcore(sales);
+            TagNamesHardcore(sales.Where(e => e.Name.Length <= 5)
+                                  .OrderByDescending(e => e.Name));
         }
 
         // Named method
