@@ -11,6 +11,14 @@ namespace Features
     {
         static void Main(string[] args)
         {
+            // Func returns something, last parm is the return type
+            Func<int, int> square = x => x * x;
+            Func<int, int, int> add = (x, y) => x + y;
+            // Action returns void
+            Action<int> write = x => Console.WriteLine(x);
+
+            write(square(add(3,5)));
+
             IEnumerable<Employee> developers = new Employee[]
             {
                 new Employee { Id = 1, Name = "Quentin" },
