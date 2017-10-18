@@ -18,7 +18,8 @@ namespace Queries
                 new Movie { Title = "Star Wars V",      Rating = 8.7f, Year = 1980 }
             };
 
-            var query = movies.Where(m => m.Year < 2000);
+            //var query = movies.Where(m => m.Year < 2000);
+            var query = movies.Filter(m => m.Year < 2000);
 
             foreach (var movie in query)
             {
