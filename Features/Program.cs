@@ -17,12 +17,16 @@ namespace Features
             // Action returns void
             Action<int> write = x => Console.WriteLine(x);
 
-            write(square(add(3,5)));
+            write(square(add(3, 5)));
 
             IEnumerable<Employee> developers = new Employee[]
             {
                 new Employee { Id = 1, Name = "Quentin" },
-                new Employee { Id = 2, Name = "Chris" }
+                new Employee { Id = 2, Name = "Chris" },
+                new Employee { Id = 9, Name = "Sven" },
+                new Employee { Id = 10, Name = "Michel" },
+                new Employee { Id = 11, Name = "Jonas" },
+                new Employee { Id = 12, Name = "Omer" },
             };
 
             IEnumerable<Employee> sales = new Employee[]
@@ -35,8 +39,6 @@ namespace Features
                 new Employee { Id = 8, Name = "Guillaume" }
             };
 
-            Console.WriteLine(developers.Count());
-
             // Use the Named method
             //TagNames(developers.Where(NameStartsWithQ));
 
@@ -48,10 +50,28 @@ namespace Features
             //    }));
 
             // Easier syntax > Lambda expression
-            TagNames(developers.Where(e => e.Name.StartsWith("Q")));
+            var devStartsWithQ = developers.Where(e => e.Name.StartsWith("Q"));
+
+            // Differents syntaxes for the same result
+            var querySyntax = from developer in developers
+                              where developer.Name.Length <= 5
+                              orderby developer.Name descending
+                              select developer;
+            var methodSyntax = developers.Where(e => e.Name.Length <= 5)
+                                         .OrderByDescending(e => e.Name);
+
+            TagNames(devStartsWithQ);
+            WriteLine();
+            TagNamesHardcore(methodSyntax);
+            WriteLine();
+            TagNames(querySyntax);
+        }
+
+        private static void WriteLine()
+        {
+            Console.WriteLine();
             Console.WriteLine("***");
-            TagNamesHardcore(sales.Where(e => e.Name.Length <= 5)
-                                  .OrderByDescending(e => e.Name));
+            Console.WriteLine();
         }
 
         // Named method
