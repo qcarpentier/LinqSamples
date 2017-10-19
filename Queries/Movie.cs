@@ -13,6 +13,7 @@ namespace Queries
         public int Year {
             get
             {
+                // When getting the Year of a movie, this message will appear
                 Console.WriteLine($"Returning {_year} for {Title}");
                 return _year;
             }

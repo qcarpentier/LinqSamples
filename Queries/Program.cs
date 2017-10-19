@@ -19,11 +19,17 @@ namespace Queries
             };
 
             //var query = movies.Where(m => m.Year < 2000);
-            var query = movies.Filter(m => m.Year < 2000);
+            var query = movies.Filter(m => m.Year < 2000).ToList();
+            Console.WriteLine(query.Count());
 
-            foreach (var movie in query)
+            //foreach (var movie in query)
+            //{
+            //    Console.WriteLine(movie.Title);
+            //}
+            var enumerator = query.GetEnumerator();
+            while (enumerator.MoveNext())
             {
-                Console.WriteLine(movie.Title);
+                Console.WriteLine(enumerator.Current.Title);
             }
         }
     }
