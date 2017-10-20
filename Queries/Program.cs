@@ -19,13 +19,19 @@ namespace Queries
             };
 
             //var query = movies.Where(m => m.Year < 2000);
-            var query = movies.Filter(m => m.Year < 2000).ToList();
-            Console.WriteLine(query.Count());
+            //var query = movies.Filter(m => m.Year < 2000).ToList();
+            //Console.WriteLine(query.Count());
 
             //foreach (var movie in query)
             //{
             //    Console.WriteLine(movie.Title);
             //}
+
+                              // Where is a streaming operator
+            var query = movies.Where(m => m.Year < 2000)
+                              // OrderBy is a non streaming operator
+                              .OrderByDescending(m => m.Rating);
+
             var enumerator = query.GetEnumerator();
             while (enumerator.MoveNext())
             {
