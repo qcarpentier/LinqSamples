@@ -14,17 +14,23 @@ namespace Cars
             var cars = ProcessFile("fuel.csv");
 
             // Multiple orders
-            var query = cars.OrderByDescending(c => c.Combined)
-                            .ThenBy(c => c.Name);
+            var query = cars
+                            //.Where(c => c.Manufacturer == "BMW" && c.Year == 2016)
+                            .OrderByDescending(c => c.Combined)
+                            .ThenBy(c => c.Name)
+                            .FirstOrDefault(c => c.Manufacturer == "BMW" && c.Year == 2016);
 
             // Query syntax for multiple orders
             var query2 = from car in cars
+                         where car.Manufacturer == "BMW" && car.Year == 2016
                          orderby car.Combined descending, car.Name
                          select car;
 
+            Console.WriteLine($"{query.Manufacturer} : {query.Combined}");
+
             foreach (var car in query2.Take(30))
             {
-                Console.WriteLine($"{car.Name} : {car.Combined}");
+                Console.WriteLine($"{car.Manufacturer} : {car.Combined}");
             }
         }
 
