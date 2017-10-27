@@ -28,10 +28,19 @@ namespace Cars
                          // (Columns we actually need)
                          select new
                          {
+                             //Manufacturer = car.Manufacturer,
                              car.Manufacturer,
                              car.Name,
                              car.Combined
                          };
+
+            // Projection with LINQ
+            var query3 = cars.Select(c => new
+            {
+                c.Manufacturer,
+                c.Name,
+                c.Combined
+            });
 
             // All is Ford? 
             var result = cars.All(c => c.Manufacturer == "Ford");
