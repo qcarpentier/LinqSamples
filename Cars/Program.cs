@@ -24,11 +24,22 @@ namespace Cars
             var query2 = from car in cars
                          where car.Manufacturer == "BMW" && car.Year == 2016
                          orderby car.Combined descending, car.Name
-                         select car;
+                         // Annonymous method to project a car with only 3 columns
+                         // (Columns we actually need)
+                         select new
+                         {
+                             car.Manufacturer,
+                             car.Name,
+                             car.Combined
+                         };
 
-            Console.WriteLine($"{query.Manufacturer} : {query.Combined}");
+            // All is Ford? 
+            var result = cars.All(c => c.Manufacturer == "Ford");
+            Console.WriteLine(result);
 
-            foreach (var car in query2.Take(30))
+            Console.WriteLine($"{query.Manufacturer} {query.Name} : {query.Combined}");
+
+            foreach (var car in query2.Take(20))
             {
                 Console.WriteLine($"{car.Manufacturer} : {car.Combined}");
             }
@@ -41,7 +52,9 @@ namespace Cars
                     .Skip(1)
                     .Where(line => line.Length > 1)
                     // Projection
-                    .Select(Car.ParseFromCsv)
+                    //.Select(Car.ParseFromCsv)
+                    // Custom projection: from string to Car
+                    .ToCar()
                     // Concrete DS
                     .ToList();
 
