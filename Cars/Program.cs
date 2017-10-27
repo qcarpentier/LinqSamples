@@ -61,7 +61,20 @@ namespace Cars
                              car.Combined
                          };
 
-            foreach (var car in query6)
+            // Join with method syntax
+            var query7 = cars.Join(manufacturers,
+                                   c => c.Manufacturer,
+                                   m => m.Name,
+                                   (c, m) => new
+                                   {
+                                       m.Headquarters,
+                                       c.Name,
+                                       c.Combined
+                                   })
+                             .OrderByDescending(c => c.Combined)
+                             .ThenBy(c => c.Name);
+                             
+            foreach (var car in query7.Take(10))
             {
                 Console.WriteLine($"{car.Headquarters} : {car.Name}");
             }
@@ -75,22 +88,22 @@ namespace Cars
             //    }
             //}
 
-                         // Same result 
-                         //foreach (var character in query5)
-                         //{
-                         //    Console.WriteLine(character);
-                         //}
+            // Same result 
+            //foreach (var character in query5)
+            //{
+            //    Console.WriteLine(character);
+            //}
 
-                         // All is Ford? 
-                         //var result = cars.All(c => c.Manufacturer == "Ford");
-                         //Console.WriteLine(result);
+            // All is Ford? 
+            //var result = cars.All(c => c.Manufacturer == "Ford");
+            //Console.WriteLine(result);
 
-                         //Console.WriteLine($"{query.Manufacturer} {query.Name} : {query.Combined}");
+            //Console.WriteLine($"{query.Manufacturer} {query.Name} : {query.Combined}");
 
-                         //foreach (var car in query2.Take(20))
-                         //{
-                         //    Console.WriteLine($"{car.Manufacturer} : {car.Combined}");
-                         //}
+            //foreach (var car in query2.Take(20))
+            //{
+            //    Console.WriteLine($"{car.Manufacturer} : {car.Combined}");
+            //}
         }
 
         private static List<Manufacturer> ProcessManufacturers(string path)
