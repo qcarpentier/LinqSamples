@@ -74,11 +74,30 @@ namespace Cars
                                    })
                              .OrderByDescending(c => c.Combined)
                              .ThenBy(c => c.Name);
-                             
-            foreach (var car in query7.Take(10))
+
+            // Grouping with query syntax
+            var query8 = from car in cars
+                         group car by car.Manufacturer.ToUpper() into manufacturer
+                         orderby manufacturer.Key
+                         select manufacturer;
+
+            // Grouping with method syntax
+            var query9 = cars.GroupBy(c => c.Manufacturer)
+                             .OrderBy(c => c.Key);
+
+            foreach (var group in query9)
             {
-                Console.WriteLine($"{car.Headquarters} : {car.Name}");
+                Console.WriteLine(group.Key);
+                foreach (var car in group.OrderByDescending(c => c.Combined).Take(3))
+                {
+                    Console.WriteLine($"\t{car.Name} : {car.Combined}");
+                }
             }
+
+            //foreach (var car in query7.Take(10))
+            //{
+            //    Console.WriteLine($"{car.Headquarters} : {car.Name}");
+            //}
 
             // Will prompt all the character in each words
             //foreach (var name in query4)
