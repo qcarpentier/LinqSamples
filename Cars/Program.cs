@@ -11,7 +11,8 @@ namespace Cars
     {
         static void Main(string[] args)
         {
-            var cars = ProcessFile("fuel.csv");
+            var cars = ProcessCars("fuel.csv");
+            var manufacturers = ProcessManufacturers("manufacturers.csv");
 
             // Multiple orders
             var query = cars
@@ -57,10 +58,10 @@ namespace Cars
             //}
 
             // Same result 
-            foreach (var character in query5)
-            {
-                Console.WriteLine(character);
-            }
+            //foreach (var character in query5)
+            //{
+            //    Console.WriteLine(character);
+            //}
 
             // All is Ford? 
             //var result = cars.All(c => c.Manufacturer == "Ford");
@@ -74,18 +75,29 @@ namespace Cars
             //}
         }
 
-        private static List<Car> ProcessFile(string path)
+        private static List<Manufacturer> ProcessManufacturers(string path)
         {
-            return
-                File.ReadAllLines(path)
-                    .Skip(1)
-                    .Where(line => line.Length > 1)
-                    // Projection
-                    //.Select(Car.ParseFromCsv)
-                    // Custom projection: from string to Car
-                    .ToCar()
-                    // Concrete DS
-                    .ToList();
+            var query = File.ReadAllLines(path)
+                            .Where(l => l.Length > 1)
+                            .ToManufacturer()
+                            .ToList();
+
+            return query;
+        }
+
+        private static List<Car> ProcessCars(string path)
+        {
+            var query = File.ReadAllLines(path)
+                            .Skip(1)
+                            .Where(line => line.Length > 1)
+                            // Projection
+                            //.Select(Car.ParseFromCsv)
+                            // Custom projection: from string to Car
+                            .ToCar()
+                            // Concrete DS
+                            .ToList();
+
+            return query;
 
             // Query syntax
             //var query = 
