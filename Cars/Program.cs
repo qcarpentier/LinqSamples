@@ -42,16 +42,36 @@ namespace Cars
                 c.Combined
             });
 
-            // All is Ford? 
-            var result = cars.All(c => c.Manufacturer == "Ford");
-            Console.WriteLine(result);
+            // Projection to take only the name
+            var query4 = cars.Select(c => c.Name);
+            var query5 = cars.SelectMany(c => c.Name)
+                             .OrderBy(c => c);
 
-            Console.WriteLine($"{query.Manufacturer} {query.Name} : {query.Combined}");
+            // Will prompt all the character in each words
+            //foreach (var name in query4)
+            //{
+            //    foreach (var character in name)
+            //    {
+            //        Console.WriteLine(character);
+            //    }
+            //}
 
-            foreach (var car in query2.Take(20))
+            // Same result 
+            foreach (var character in query5)
             {
-                Console.WriteLine($"{car.Manufacturer} : {car.Combined}");
+                Console.WriteLine(character);
             }
+
+            // All is Ford? 
+            //var result = cars.All(c => c.Manufacturer == "Ford");
+            //Console.WriteLine(result);
+
+            //Console.WriteLine($"{query.Manufacturer} {query.Name} : {query.Combined}");
+
+            //foreach (var car in query2.Take(20))
+            //{
+            //    Console.WriteLine($"{car.Manufacturer} : {car.Combined}");
+            //}
         }
 
         private static List<Car> ProcessFile(string path)
