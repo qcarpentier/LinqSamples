@@ -77,7 +77,8 @@ namespace Cars
 
             // Grouping with query syntax
             var query8 = from car in cars
-                         group car by car.Manufacturer.ToUpper() into manufacturer
+                         group car by car.Manufacturer.ToUpper() 
+                            into manufacturer
                          // Ordering the manufacturer group
                          orderby manufacturer.Key
                          select manufacturer;
@@ -86,15 +87,47 @@ namespace Cars
             var query9 = cars.GroupBy(c => c.Manufacturer.ToUpper())
                              .OrderBy(c => c.Key);
 
-            foreach (var group in query9)
+            // Grouping and joining with query syntax
+            var query10 = from manufacturer in manufacturers
+                          join car in cars on manufacturer.Name equals car.Manufacturer
+                            into carGroup
+                          orderby manufacturer.Name
+                          select new
+                          {
+                              Manufacturer = manufacturer,
+                              Cars = carGroup
+                          };
+
+            // Grouping and joining with method syntax
+            var query11 = manufacturers.GroupJoin(
+                            cars, m => m.Name, c => c.Manufacturer,
+                            (m, g) => new
+                            {
+                                Manufacturer = m,
+                                Cars = g
+                            }).OrderBy(m => m.Manufacturer.Name);
+
+            // Grouping and joining with method syntax
+
+            foreach (var group in query10)
             {
-                Console.WriteLine(group.Key);
+                Console.WriteLine($"{group.Manufacturer.Name}: {group.Manufacturer.Headquarters}");
                 // Ordering elements in group
-                foreach (var car in group.OrderByDescending(c => c.Combined).Take(3))
+                foreach (var car in group.Cars.OrderByDescending(c => c.Combined).Take(3))
                 {
                     Console.WriteLine($"\t{car.Name} : {car.Combined}");
                 }
             }
+
+            //foreach (var group in query9)
+            //{
+            //    Console.WriteLine(group.Key);
+            //    // Ordering elements in group
+            //    foreach (var car in group.OrderByDescending(c => c.Combined).Take(3))
+            //    {
+            //        Console.WriteLine($"\t{car.Name} : {car.Combined}");
+            //    }
+            //}
 
             //foreach (var car in query7.Take(10))
             //{
