@@ -15,7 +15,7 @@ namespace Cars
             var manufacturers = ProcessManufacturers("manufacturers.csv");
 
             // Multiple orders
-            var query = 
+            var query =
                 cars//.Where(c => c.Manufacturer == "BMW" && c.Year == 2016)
                     .OrderByDescending(c => c.Combined)
                     .ThenBy(c => c.Name)
@@ -155,9 +155,30 @@ namespace Cars
                 orderby result.Max descending
                 select result;
 
-            
+            // Aggregating method syntax
+            var query15 =
+                cars.GroupBy(c => c.Manufacturer)
+                    .Select(g =>
+                    {
+                        var results =
+                                g.Aggregate(
+                                    // Accumulator (initial value)
+                                    new CarStatistics(),
+                                    // Accumulate
+                                    (acc, c) => acc.Accumulate(c),
+                                    // Compute
+                                    acc => acc.Compute());
+                        return new
+                        {
+                            Name = g.Key,
+                            Max = results.Max,
+                            Min = results.Min,
+                            Avg = results.Avg
+                        };
+                    })
+                    .OrderByDescending(c => c.Max);
 
-            foreach (var result in query14)
+            foreach (var result in query15)
             {
                 Console.WriteLine($"{result.Name.ToUpper()}");
                 Console.WriteLine($"\t Max: {result.Max}");
